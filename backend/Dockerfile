@@ -1,7 +1,7 @@
-FROM node:18-alpine
+FROM node:18
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 5000
-CMD ["npm", "start"]  # or "npm run dev" for dev mode
+CMD ["npm", "run", "start"]

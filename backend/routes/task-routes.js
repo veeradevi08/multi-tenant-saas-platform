@@ -12,8 +12,10 @@ const { tenantIsolation } = require('../middleware/tenantIsolation');
 
 const router = express.Router();
 
-// All task routes require authentication + tenant isolation
+// Apply authentication + tenant isolation to all task routes
 router.use(authenticate, tenantIsolation);
+
+// Correct route paths to match /api/projects/:projectId/tasks
 
 // Create task in a project
 router.post('/projects/:projectId/tasks', createTask);

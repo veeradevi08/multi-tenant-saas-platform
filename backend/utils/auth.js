@@ -5,10 +5,11 @@ const bcrypt = require('bcrypt');
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = '24h';
 
+// Ensure tenantId is always included in token
 function generateToken(user) {
   const payload = {
     userId: user.id,
-    tenantId: user.tenant_id || null,  // Critical for isolation
+    tenantId: user.tenantId || user.tenant_id || null,  // ensure correct mapping
     role: user.role,
   };
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });

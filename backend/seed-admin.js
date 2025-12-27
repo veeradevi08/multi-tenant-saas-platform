@@ -1,4 +1,4 @@
-// seed-super-admin.js
+// backend/seed-super-admin.js
 const pool = require('./config/db');
 const bcrypt = require('bcrypt');
 

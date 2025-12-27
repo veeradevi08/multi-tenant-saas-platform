@@ -14,6 +14,12 @@ function Login() {
     setError('')
     setLoading(true)
 
+    console.log('Sending login request with:', {
+      email,
+      password,
+      tenantSubdomain: subdomain.trim()
+    })
+
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', {
         email,
@@ -21,13 +27,27 @@ function Login() {
         tenantSubdomain: subdomain.trim()
       })
 
+      console.log('Login response:', response.data)
+
       const { token } = response.data.data
-      localStorage.setItem('token', token) // Save token for future requests
+      localStorage.setItem('token', token)
       alert('Login successful! Redirecting...')
-      window.location.href = '/dashboard' // Or use react-router navigate
+      window.location.href = '/dashboard'
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Check credentials.')
       console.error('Login error:', err)
+
+      if (err.response) {
+        // Backend responded with status code outside 2xx
+        setError(err.response.data?.message || 'Login failed. Check credentials.')
+        console.log('Backend response:', err.response.data)
+      } else if (err.request) {
+        // Request made but no response (likely CORS/network)
+        setError('No response from server. Check backend or CORS.')
+        console.log('Request made but no response:', err.request)
+      } else {
+        // Something else
+        setError('Login failed. Check console for details.')
+      }
     } finally {
       setLoading(false)
     }
