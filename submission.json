@@ -1,0 +1,9 @@
+{
+  "testCredentials": {
+    "tenantAdmin": {
+      "email": "admin@freshtest.com",
+      "password": "FreshPass123!",
+      "tenantSubdomain": "freshtest2025"
+    }
+  }
+}
